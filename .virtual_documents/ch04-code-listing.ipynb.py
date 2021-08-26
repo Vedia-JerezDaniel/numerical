@@ -133,11 +133,11 @@ def hide_labels(fig, ax):
     ax.axis('tight')
     
     fignum += 1
-    fig.savefig("plot-types-get_ipython().run_line_magic("d.pdf"", " % fignum)")
+#     fig.savefig("plot-types-get_ipython().run_line_magic("d.pdf"", " % fignum)")
     
 
 
-x = np.linspace(-3, 3, 25)
+x = np.linspace(-13, 13, 25)
 y1 = x**3+ 3 * x**2 + 10
 y2 = -1.5 * x**3 + 10*x**2 - 15
 
@@ -208,7 +208,7 @@ fig, ax = plt.subplots(figsize=(3, 3))
 
 colors = ['yellowgreen', 'gold', 'lightskyblue', 'lightcoral']
 
-x = y = np.linspace(-2, 2, 10)
+x = y = np.linspace(-20, 20, 10)
 X, Y = np.meshgrid(x, y)
 U = np.sin(X)
 V = np.sin(Y)
@@ -260,6 +260,9 @@ fig, axes = plt.subplots(ncols=2, nrows=3)
 list(range(1, 12, 2))
 
 
+# get_ipython().getoutput("pip install sympy")
+
+
 s.sin(sym_x).series(n=4).removeO()
 
 
@@ -283,7 +286,8 @@ ax.plot(x, np.sin(x), linewidth=4, color="red", label='sin(x)')
 
 colors = ["blue", "black"]
 linestyles = [':', '-.', '--']
-for idx, n in enumerate(range(1, 12, 2)):
+
+for idx, n in enumerate(range(1, 12, 3)):
     ax.plot(x, sin_expansion(x, n), color=colors[idx // 3],
             linestyle=linestyles[idx % 3], linewidth=3,
             label="O(get_ipython().run_line_magic("d)", " approx.\" % (n+1))")
@@ -294,7 +298,7 @@ ax.legend(bbox_to_anchor=(1.02, 1), loc=2, borderaxespad=0.0)
 fig.subplots_adjust(right=.75);
 
 
-fig.savefig("sin-expansion.pdf")
+# fig.savefig("sin-expansion.pdf")
 
 
 fig, axes = plt.subplots(1, 2, figsize=(8, 3.5), sharey=True)
@@ -305,7 +309,7 @@ area1 = (np.random.randn(200) + 0.5) * 100
 data2 = np.random.randn(200, 2) * np.array([1, 3])
 area2 = (np.random.randn(200) + 0.5) * 100
 
-axes[0].scatter(data1[:,0], data1[:,1], color="green", marker="s", s=30, alpha=0.5)
+axes[0].scatter(data1[:,0], data1[:,1], color="green", marker="s", s=30, alpha=0.6)
 axes[0].scatter(data2[:,0], data2[:,1], color="blue", marker="o", s=30, alpha=0.5)
 
 axes[1].hist([data1[:,1], data2[:,1]], bins=15, color=["green", "blue"], alpha=0.5, orientation='horizontal');
@@ -325,7 +329,7 @@ fig.tight_layout()
 fig.savefig("legend-loc.pdf")
 
 
-fig, ax = plt.subplots(1, 1, figsize=(8.5, 3))
+fig, ax = plt.subplots(1, 1, figsize=(8.5, 5))
 
 x = np.linspace(-1, 1, 100)
 
@@ -334,12 +338,12 @@ for n in range(1, 9):
 
 ax.legend(ncol=4, loc=3, bbox_to_anchor=(0, 1), fontsize=12)
 fig.subplots_adjust(top=.75);
-fig.savefig("legend-loc-2.pdf")
+# fig.savefig("legend-loc-2.pdf")
 
 
 fig, ax = plt.subplots(figsize=(8, 3), subplot_kw={'facecolor': "#ebf5ff"})
 
-x = np.linspace(0, 50, 500)
+x = np.linspace(0, 50, 100)
 ax.plot(x, np.sin(x) * np.exp(-x/10), lw=2)
 
 ax.set_xlabel("x", labelpad=5,
@@ -350,17 +354,17 @@ ax.set_title("axis labels and title example", loc='left',
              fontsize=16, fontname='serif', color="blue")
 
 fig.tight_layout()
-fig.savefig("ch4-axis-labels.pdf")
+# fig.savefig("ch4-axis-labels.pdf")
 
 
-x = np.linspace(0, 30, 500)
+x = np.linspace(0, 30, 200)
 y = np.sin(x) * np.exp(-x/10)
 
-fig, axes = plt.subplots(1, 3, figsize=(9, 3), subplot_kw={'facecolor': "#ebf5ff"})
+fig, axes = plt.subplots(1, 3, figsize=(12, 3), subplot_kw={'facecolor': "#ebf5ff"})
 
 axes[0].plot(x, y, lw=2)
 axes[0].set_xlim(-5, 35)
-axes[0].set_ylim(-1, 1)
+# axes[0].set_ylim(-1, 1)
 axes[0].set_title("set_xlim / set_y_lim")
 
 axes[1].plot(x, y, lw=2)
@@ -371,7 +375,7 @@ axes[2].plot(x, y, lw=2)
 axes[2].axis('equal')
 axes[2].set_title("axis('equal')")
 
-fig.savefig("ch4-axis-ranges.pdf")
+# fig.savefig("ch4-axis-ranges.pdf")
 
 
 x = np.linspace(-2 * np.pi, 2 * np.pi, 500)
@@ -388,17 +392,17 @@ axes[1].set_xticks([-5, 0, 5])
 axes[1].set_title("set_xticks")
 
 axes[2].plot(x, y, lw=2)
-axes[2].xaxis.set_major_locator(mpl.ticker.MaxNLocator(4))
-axes[2].yaxis.set_major_locator(mpl.ticker.FixedLocator([-1, 0, 1]))
+axes[2].xaxis.set_major_locator(mpl.ticker.MaxNLocator(6))
+axes[2].yaxis.set_major_locator(mpl.ticker.FixedLocator([-2, 0, 2]))
 axes[2].xaxis.set_minor_locator(mpl.ticker.MaxNLocator(8))
-axes[2].yaxis.set_minor_locator(mpl.ticker.MaxNLocator(8))
+# axes[2].yaxis.set_minor_locator(mpl.ticker.MaxNLocator(8))
 axes[2].set_title("set_major_locator")
 
 axes[3].plot(x, y, lw=2)
 axes[3].set_yticks([-1, 0, 1])
 axes[3].set_xticks([-2 * np.pi, -np.pi, 0, np.pi, 2 * np.pi])
 axes[3].set_xticklabels(['$-2\pi$', '$-\pi$', 0, r'$\pi$', r'$2\pi$'])
-axes[3].xaxis.set_minor_locator(mpl.ticker.FixedLocator([-3 * np.pi / 2, -np.pi/2, 0, np.pi/2, 3 * np.pi/2]))
+# axes[3].xaxis.set_minor_locator(mpl.ticker.FixedLocator([-3 * np.pi / 2, -np.pi/2, 0, np.pi/2, 3 * np.pi/2]))
 axes[3].yaxis.set_minor_locator(mpl.ticker.MaxNLocator(4))
 axes[3].set_title("set_xticklabels")
 
@@ -432,7 +436,7 @@ axes[2].grid(color="grey", which="minor", axis='x', linestyle=':', linewidth=0.2
 axes[2].grid(color="grey", which="major", axis='y', linestyle='-', linewidth=0.5)
 
 fig.tight_layout()
-fig.savefig("ch4-axis-grid.pdf")
+# fig.savefig("ch4-axis-grid.pdf")
 
 
 fig, axes = plt.subplots(1, 2, figsize=(8, 3))
@@ -453,7 +457,7 @@ axes[1].xaxis.set_major_formatter(formatter)
 axes[1].yaxis.set_major_formatter(formatter)
 
 fig.tight_layout()
-fig.savefig("ch4-axis-scientific.pdf")
+# fig.savefig("ch4-axis-scientific.pdf")
 
 
 fig, axes = plt.subplots(1, 3, figsize=(12, 3))
@@ -462,10 +466,10 @@ x = np.linspace(0, 1e3, 100)
 y1, y2 = x**3, x**4
 
 axes[0].set_title('loglog')
-axes[0].loglog(x, y1, 'b', x, y2, 'r')
+axes[0].loglog(x, y1, 'b.', x, y2, 'r')
 
 axes[1].set_title('semilogy')
-axes[1].semilogy(x, y1, 'b', x, y2, 'r')
+axes[1].semilogy(x, y1, 'b.', x, y2, 'r*')
 
 axes[2].set_title('plot / set_xscale / set_yscale')
 axes[2].plot(x, y1, 'b', x, y2, 'r')
@@ -473,7 +477,7 @@ axes[2].set_xscale('log')
 axes[2].set_yscale('log')
 
 fig.tight_layout()
-fig.savefig("ch4-axis-log-plots.pdf")
+# fig.savefig("ch4-axis-log-plots.pdf")
 
 
 fig, ax1 = plt.subplots(figsize=(8, 4))
@@ -481,7 +485,6 @@ fig, ax1 = plt.subplots(figsize=(8, 4))
 r = np.linspace(0, 5, 100)
 a = 4 * np.pi * r ** 2  # area
 v = (4 * np.pi / 3) * r ** 3  # volume
-
 
 ax1.set_title("surface area and volume of a sphere", fontsize=16)
 ax1.set_xlabel("radius [m]", fontsize=16)
@@ -494,11 +497,11 @@ for label in ax1.get_yticklabels():
 ax2 = ax1.twinx()
 ax2.plot(r, v, lw=2, color="red")
 ax2.set_ylabel(r"volume ($m^3$)", fontsize=16, color="red")
-for label in ax2.get_yticklabels():
-    label.set_color("red")
+# for label in ax2.get_yticklabels():
+#     label.set_color("red")
     
 fig.tight_layout()
-fig.savefig("ch4-axis-twin-ax.pdf")
+# fig.savefig("ch4-axis-twin-ax.pdf")
 
 
 x = np.linspace(-10, 10, 500)
