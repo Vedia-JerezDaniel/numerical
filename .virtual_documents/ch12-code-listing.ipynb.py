@@ -7,9 +7,6 @@ import numpy as np
 import pandas as pd
 
 
-# pd.set_option('display.mpl_style', 'default')
-
-
 import matplotlib as mpl
 mpl.style.use('ggplot')
 
@@ -83,21 +80,10 @@ df = pd.DataFrame([[909976, "Sweden"],
 df
 
 
-df.index = ["Stockholm", "London", "Rome", "Paris"]
+df.index = ['Population','Country']
 
 
-df.columns = ["Population", "State"]
-
-
-df
-
-
-df = pd.DataFrame([[909976, "Sweden"],
-                   [8615246, "United kingdom"], 
-                   [2872086, "Italy"],
-                   [2273305, "France"]],
-                  index=["Stockholm", "London", "Rome", "Paris"],
-                  columns=["Population", "State"])
+df.columns = ["Sweden", "United kingdom", "Italy", "France", 'Spain', 'Bolivia']
 
 
 df
@@ -109,6 +95,11 @@ df = pd.DataFrame([[909976, "Sweden"],
                    [2273305, "France"]],
                   index=["Stockholm", "London", "Rome", "Paris"],
                   columns=["Population", "State"])
+
+
+df = pd.DataFrame({"Population": [909976, 8615246, 2872086, 2273305],
+                   "State": ["Sweden", "United kingdom", "Italy", "France"]},
+                  index=["Stockholm", "London", "Rome", "Paris"])
 
 
 df
@@ -126,10 +117,10 @@ df.values
 df.Population
 
 
-df.index
+type(df.Population)
 
 
-df.columns
+df.Population.Stockholm
 
 
 type(df.index)
@@ -162,6 +153,23 @@ df.dtypes
 df.head()
 
 
+s.head()
+
+
+fig, axes = plt.subplots(1, 4, figsize=(12, 3))
+s.plot(ax=axes[0], kind='line', title='line')
+s.plot(ax=axes[1], kind='bar', title='bar')
+s.plot(ax=axes[2], kind='box', title='box')
+s.plot(ax=axes[3], kind='pie', title='pie')
+
+
+fig, axes = plt.subplots(1, 3, figsize=(12, 3))
+df.plot(ax=axes[0], kind='line', title='line')
+df.plot(ax=axes[1], kind='bar', title='bar')
+df.plot(ax=axes[2], kind='box', title='box')
+# df.plot(ax=axes[3], kind='pie', title='pie')
+
+
 get_ipython().getoutput("head -n5 /home/rob/datasets/european_cities.csv")
 
 
@@ -172,6 +180,9 @@ df_pop.head()
 
 
 df_pop = pd.read_csv("data/european.csv", delimiter=",", encoding="utf-8", header=0)
+
+
+df_pop.shape
 
 
 df_pop.info()
@@ -264,7 +275,7 @@ pd.date_range("2015-1-1", periods=31)
 pd.date_range(datetime.datetime(2015, 1, 1), periods=31)
 
 
-pd.date_range("2015-1-1 00:00", "2015-1-1 12:00", freq="H")
+pd.date_range("2015-1-1 00:00", "2015-1-1 23:00", freq="H")
 
 
 ts1 = pd.Series(np.arange(31), index=pd.date_range("2015-1-1", periods=31))
@@ -288,8 +299,8 @@ ts1.index[2].nanosecond
 ts1.index[2].to_pydatetime()
 
 
-ts2 = pd.Series(np.random.rand(2), 
-                index=[datetime.datetime(2015, 1, 1), datetime.datetime(2015, 2, 1)])
+ts2 = pd.Series(np.random.rand(31), 
+                index=pd.date_range("2015-8-1", periods=31))
 
 
 ts2
@@ -313,13 +324,13 @@ ts2.to_period('M')
 pd.date_range("2015-1-1", periods=12, freq="M").to_period()
 
 
-get_ipython().getoutput("head -n 5 temperature_outdoor_2014.tsv")
+# get_ipython().getoutput("head -n 5 temperature_outdoor_2014.tsv")
 
 
-df1 = pd.read_csv('temperature_outdoor_2014.tsv', delimiter="\t", names=["time", "outdoor"])
+df1 = pd.read_csv('data/out_temp.tsv', delimiter="\t", names=["time", "outdoor"])
 
 
-df2 = pd.read_csv('temperature_indoor_2014.tsv', delimiter="\t", names=["time", "indoor"])
+df2 = pd.read_csv('data/int_temp.tsv', delimiter="\t", names=["time", "indoor"])
 
 
 df1.head()
@@ -336,13 +347,16 @@ df1 = df1.set_index("time")
 
 
 df2.time = (pd.to_datetime(df2.time.values, unit="s")
-              .tz_localize('UTC').tz_convert('Europe/Stockholm'))
+              .tz_localize('UTC').tz_convert('Europe/Madrid'))
 
 
 df2 = df2.set_index("time")
 
 
 df1.head()
+
+
+df2.head()
 
 
 df1.index[0]
@@ -353,7 +367,7 @@ df1.plot(ax=ax)
 df2.plot(ax=ax)
 
 fig.tight_layout()
-fig.savefig("ch12-timeseries-temperature-2014.pdf")
+# fig.savefig("ch12-timeseries-temperature-2014.pdf")
 
 
 # select january data
@@ -362,16 +376,16 @@ fig.savefig("ch12-timeseries-temperature-2014.pdf")
 df1.info()
 
 
-df1_jan = df1[(df1.index > "2014-1-1") & (df1.index < "2014-2-1")]
+df1_jan = df1[(df1.index > "2014-8-1") & (df1.index < "2014-10-1")]
 
 
-df1.index < "2014-2-1"
+df1.index < "2014-10-1"
 
 
 df1_jan.info()
 
 
-df2_jan = df2["2014-1-1":"2014-1-31"]
+df2_jan = df2["2014-8-1":"2014-9-30"]
 
 
 fig, ax = plt.subplots(1, 1, figsize=(12, 4))
@@ -380,7 +394,7 @@ df1_jan.plot(ax=ax)
 df2_jan.plot(ax=ax)
 
 fig.tight_layout()
-fig.savefig("ch12-timeseries-selected-month.pdf")
+# fig.savefig("ch12-timeseries-selected-month.pdf")
 
 
 # group by month
